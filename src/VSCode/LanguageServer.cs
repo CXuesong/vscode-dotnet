@@ -272,25 +272,25 @@ namespace VSCode
                 State = LanguageServerState.Stopped;
             }
         }
-
-        public void WaitForState(LanguageServerState desiredState, TimeSpan timeout)
+        public bool WaitForState(LanguageServerState desiredState, TimeSpan timeout)
         {
-            DateTime expires = DateTime.Now.Add(timeout);
-
-            while (DateTime.Now < expires)
-            {
-                Task.Delay(2).Wait();
-
-                if (State == desiredState)
-                {
-                    break;
-                }
-            }
+            return WaitForState(desiredState, (int) timeout.TotalMilliseconds);
         }
 
-        public void WaitForState(LanguageServerState desiredState)
+        public bool WaitForState(LanguageServerState desiredState, int timeoutMilliseconds)
         {
-            WaitForState(desiredState, TimeSpan.MaxValue);
+            var startTime = Environment.TickCount;
+            do
+            {
+                if (State == desiredState) return true;
+                Task.Delay(10).Wait();
+            } while (timeoutMilliseconds < 0 || Environment.TickCount - startTime < timeoutMilliseconds);
+            return false;
+        }
+
+        public bool WaitForState(LanguageServerState desiredState)
+        {
+            return WaitForState(desiredState, -1);
         }
 
         private void _HandleMessage(IMessage message)

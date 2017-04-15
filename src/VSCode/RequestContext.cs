@@ -9,7 +9,6 @@ namespace VSCode
         internal RequestContext(RequestMessage request, LanguageServer server)
         {
             Server = server;
-
             Request = request;
         }
 
