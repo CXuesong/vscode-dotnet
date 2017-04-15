@@ -68,7 +68,7 @@ namespace VSCode.Editor
 
         private void _HandleTextDocumentChanged(object sender, DidChangeTextDocumentParams e)
         {
-            WorkspaceDocument document = _documents.Where(x => x.Uri.Equals(e.TextDocument.Uri)).FirstOrDefault();
+            WorkspaceDocument document = _documents.FirstOrDefault(x => x.Uri.Equals(e.TextDocument.Uri));
 
             if (document != null)
             {
@@ -79,7 +79,7 @@ namespace VSCode.Editor
 
         private void _HandleTextDocumentClosed(object sender, DidCloseTextDocumentParams e)
         {
-            WorkspaceDocument document = _documents.Where(x => x.Uri.Equals(e.TextDocument.Uri)).FirstOrDefault();
+            WorkspaceDocument document = _documents.FirstOrDefault(x => x.Uri.Equals(e.TextDocument.Uri));
 
             if (document != null)
             {

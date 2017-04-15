@@ -27,14 +27,14 @@ namespace VSCode
     public partial class LanguageServer : IDisposable
     {
         private int _currentId;
-        private List<IFeature> _features;
-        private IMessageReader _messageReader;
-        private IMessageWriter _messageWriter;
-        private Dictionary<int, ResponseMessage> _responses;
-        private ServerCapabilities _serverCapabilities;
-        private CancellationTokenSource _tokenSource;
+        private readonly List<IFeature> _features;
+        private readonly IMessageReader _messageReader;
+        private readonly IMessageWriter _messageWriter;
+        private readonly Dictionary<int, ResponseMessage> _responses;
+        private readonly ServerCapabilities _serverCapabilities;
+        private readonly CancellationTokenSource _tokenSource;
 
-        private List<RequestContext> _requestContexts;
+        private readonly List<RequestContext> _requestContexts;
 
         public LanguageServer()
         {
@@ -97,7 +97,7 @@ namespace VSCode
         public T GetFeature<T>()
             where T : IFeature
         {
-            IFeature feature = _features.Where(x => x.GetType().Equals(typeof(T))).FirstOrDefault();
+            IFeature feature = _features.OfType<T>().FirstOrDefault();
 
             if (feature == null)
             {
@@ -221,7 +221,7 @@ namespace VSCode
                 throw new InvalidOperationException("The language server must be started before sending a response.");
             }
 
-            RequestContext context = _requestContexts.Where(x => x.Request.Id.Equals(id)).FirstOrDefault();
+            RequestContext context = _requestContexts.FirstOrDefault(x => x.Request.Id.Equals(id));
 
             if (context == null)
             {
@@ -297,19 +297,19 @@ namespace VSCode
         {
             try
             {
-                if (message.GetType().Equals(typeof(NotificationMessage)))
+                if (message is NotificationMessage)
                 {
-                    _HandleNotification((NotificationMessage)message);
+                    _HandleNotification((NotificationMessage) message);
                 }
 
-                else if (message.GetType().Equals(typeof(RequestMessage)))
+                else if (message is RequestMessage)
                 {
-                    _HandleRequest((RequestMessage)message);
+                    _HandleRequest((RequestMessage) message);
                 }
 
-                else if (message.GetType().Equals(typeof(ResponseMessage)))
+                else if (message is ResponseMessage)
                 {
-                    _HandleResponse((ResponseMessage)message);
+                    _HandleResponse((ResponseMessage) message);
                 }
 
                 else
@@ -353,7 +353,7 @@ namespace VSCode
                 _requestContexts.Remove(context);
 
                 // get the original request context
-                RequestContext cancelContext = _requestContexts.Where(x => x.Request.Id.Equals(message.Id)).FirstOrDefault();
+                RequestContext cancelContext = _requestContexts.FirstOrDefault(x => x.Request.Id.Equals(message.Id));
                 cancelContext?.Cancel();
             }
 

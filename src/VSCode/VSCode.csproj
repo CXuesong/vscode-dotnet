@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>A VS Code language server implemention for .NET/.NET Core.</Description>
-    <Copyright>Copyright 2016, Josh Johnson, CXuesong</Copyright>
+    <Description>A VS Code language server implemention for .NET/.NET Core. Forked from Josh Johnson's vscode-dotnet repository on GitHub.</Description>
+    <Copyright>Copyright 2016, Josh Johnson; Copyright 2017, CXuesong</Copyright>
     <AssemblyTitle>VSCode.NET</AssemblyTitle>
     <VersionPrefix>1.0.0-alpha2</VersionPrefix>
     <TargetFramework>netstandard1.3</TargetFramework>
@@ -14,14 +14,17 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <AssemblyVersion>1.0.0.2</AssemblyVersion>
-    <FileVersion>1.0.0.2</FileVersion>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
     <NeutralLanguage>en-us</NeutralLanguage>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>CXuesong</Authors>
     <PackageProjectUrl>https://github.com/CXuesong/vscode-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/CXuesong/vscode-dotnet</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
+    <Version>1.0.1</Version>
+    <PackageTags>vscode language-server</PackageTags>
+    <PackageReleaseNotes>See https://github.com/CXuesong/vscode-dotnet/releases .</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
